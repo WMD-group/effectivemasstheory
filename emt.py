@@ -83,6 +83,10 @@ else:
 # Exciton binding energy
     binding=((-1/(2*d0*radius_bohr))*(13.605698066*1000))
     print ("Exciton binding energy: " + str(binding) + " meV")
+ 
+# Note that the value of 0.26 for the Mott Criteron is taken from:
+# "Universality aspects of the metal-nonmetal transition in condensed media"
+# Edwards and Seinko, PRB 17, 2575 (1978) 
     
 # Mott transition (both carriers)
     mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
