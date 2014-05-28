@@ -19,7 +19,7 @@ parser.add_option("-v", "--hole-effective-mass",
                   action="store", type="float", dest="h", default=0.12,
                   help="Average hole (valence band) effective mass") 
 parser.add_option("-s", "--static-dielectric",
-                  action="store", type="float", dest="d0", default=25.7,
+                  action="store", type="float", dest="d0", default=24.1,
                   help="Static (low-frequency) dielectric constant")     
 parser.add_option("-o", "--optical-dielectric",
                   action="store", type="float", dest="d1", default=4.5,
@@ -31,7 +31,7 @@ parser.add_option("-o", "--optical-dielectric",
 print "A program to calculate simple semiconductor properties from effective mass theory"
 # See, e.g. Fundamentals of Semiconductors, Yu and Cardona
 
-print "Aron Walsh (University of Bath) \nDate last edited: 25/01/2014 \n"
+print "Aron Walsh (University of Bath) \nDate last edited: 25/05/2014 \n"
 
 # Get electron effective mass
 if options.e ==0:
@@ -47,14 +47,14 @@ if options.h ==0:
 else:
     h = options.h
     
-# Get static dielectric constant
+# Get static (low frequency) dielectric constant
 if options.d0 ==0:
     d0 = raw_input("What is the static dielectric constant (e.g. 10)?")
     d0 = float(d0)
 else:
     d0 = options.d0
 
-# Get optical dielectric constant
+# Get optical (high frequency) dielectric constant
 if options.d1 ==0:
     d1 = raw_input("What is the optical dielectric constant (e.g. 5)?")
     d1 = float(d1)
@@ -67,6 +67,7 @@ else:
 
 # Reduced effective mass
     mass=((e*h)/(e+h))
+    diel=(1/d1-1/d0)
     print ("Reduced effective mass: " + str(mass) + " me \n")
 
 # Exciton Bohr radius
@@ -76,9 +77,17 @@ else:
     radius=(d0/mass)*0.529177249
     radius_h=(d0/h)*0.529177249
     radius_e=(d0/e)*0.529177249
-    print ("Exciton radius: " + str(radius) + " A")
-    print ("Hole radius: " + str(radius_h) + " A")
-    print ("Electron radius: " + str(radius_e) + " A \n")
+    print ("Mott-Wannier exciton radius: " + str(radius) + " A")
+    print ("Shallow acceptor radius: " + str(radius_h) + " A")
+    print ("Shallow donor radius: " + str(radius_e) + " A \n")
+    
+# Carrier polaron radius
+# TO CHECK: Formula has 8*pi --> 2* Prefactor Used
+    radius_bh=(2/(h*diel))*0.529177249
+    print ("Hole polaron radius: " + str(radius_bh) + " A")
+    
+    radius_be=(2/(e*diel))*0.529177249
+    print ("Electron polaron radius: " + str(radius_be) + " A \n")
     
 # Exciton binding energy
     binding=((-1/(2*d0*radius_bohr))*(13.605698066*1000))
