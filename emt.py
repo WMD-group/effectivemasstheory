@@ -6,6 +6,8 @@
 # Aron Walsh 2014                                                              #
 ################################################################################
 
+import math as m
+import scipy.constants as sc
 from numpy import linspace
 #import matplotlib.pyplot as plt
 from optparse import OptionParser
@@ -28,10 +30,10 @@ parser.add_option("-o", "--optical-dielectric",
 (options,args) = parser.parse_args()
 
 ########################### Begin main program #################################
-print "A program to calculate simple semiconductor properties from effective mass theory"
+print "*A program to calculate simple semiconductor properties from effective mass theory* \n"
 # See, e.g. Fundamentals of Semiconductors, Yu and Cardona
 
-print "Aron Walsh (University of Bath) \nDate last edited: 25/05/2014 \n"
+print "Aron Walsh (University of Bath) \nDate last edited: 31/05/2014 \n"
 
 # Get electron effective mass
 if options.e ==0:
@@ -68,7 +70,9 @@ else:
 # Reduced effective mass
     mass=((e*h)/(e+h))
     diel=(1/d1-1/d0)
-    print ("Reduced effective mass: " + str(mass) + " me \n")
+    print ("*Effective mass \nHole mass: " + str(h) + " me")
+    print ("Electron mass: " + str(e) + " me")
+    print ("Reduced mass: " + str(mass) + " me \n")
 
 # Exciton Bohr radius
     radius_bohr=(d0/mass)
@@ -77,34 +81,54 @@ else:
     radius=(d0/mass)*0.529177249
     radius_h=(d0/h)*0.529177249
     radius_e=(d0/e)*0.529177249
-    print ("Mott-Wannier exciton radius: " + str(radius) + " A")
-    print ("Shallow acceptor radius: " + str(radius_h) + " A")
-    print ("Shallow donor radius: " + str(radius_e) + " A \n")
-    
-# Carrier polaron radius
-# TO CHECK: Formula has 8*pi --> 2* Prefactor Used
-    radius_bh=(2/(h*diel))*0.529177249
-    print ("Hole polaron radius: " + str(radius_bh) + " A")
-    
-    radius_be=(2/(e*diel))*0.529177249
-    print ("Electron polaron radius: " + str(radius_be) + " A \n")
+    print ("*Shallow defects \nAcceptor radius: " + str(radius_h) + " A")
+    print ("Donor radius: " + str(radius_e) + " A \n")
     
 # Exciton binding energy
     binding=((-1/(2*d0*radius_bohr))*(13.605698066*1000))
-    print ("Exciton binding energy: " + str(binding) + " meV")
- 
-# Note that the value of 0.26 for the Mott Criteron is taken from:
-# "Universality aspects of the metal-nonmetal transition in condensed media"
-# Edwards and Seinko, PRB 17, 2575 (1978) 
+    print ("*Mott-Wannier carriers \nExciton radius: " + str(radius) + " A")
+    print ("Exciton binding energy: " + str(binding) + " meV")    
+     
+# Carrier polaron radius
+    #TODO: Check formula has 8*pi --> 2* Prefactor Used
+    radius_bh=(2/(h*diel))*0.529177249
+    print ("Hole (band) polaron radius: " + str(radius_bh) + " A")
     
+    radius_be=(2/(e*diel))*0.529177249
+    print ("Electron (band) polaron radius: " + str(radius_be) + " A \n")
+
+# Frohlich (lage polaron) properties
+    # Speed of light in atomic units
+    c=1/sc.alpha
+    # LO frequency (TODO: add to input. Current 1THz -> Ry)
+    freq=0.000303966
+    # Small polaron coupling constant 
+    h_alpha=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
+    e_alpha=(1/c)*m.sqrt((e*c*c)/(2*freq))*diel
+    # Small polaron mass (Feynman)
+    h_pol=h*(1+h_alpha/6)
+    radius_bhp=(2/(h_pol*diel))*0.529177249
+    e_pol=e*(1+e_alpha/6)
+    radius_bep=(2/(e_pol*diel))*0.529177249
+    print ("*Hole Polarons \nFrohlich coupling constant: " + str(h_alpha))
+    print ("Effective polaron mass: " + str(h_pol))
+    print ("Polaron radius: " + str(radius_bhp) + "\n")
+    print ("*Electron Polarons \nFrohlich coupling constant: " + str(e_alpha))
+    print ("Effective polaron mass: " + str(e_pol))
+    print ("Polaron radius: " + str(radius_bep) + "\n")
+
 # Mott transition (both carriers)
     mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
-    print ("Mott criterion (reduced): " + str(mott) + " cm-3")
+    print ("*Mott criterion (carrier concentrations) \nReduced mass: " + str(mott) + " cm-3")
 
 # Mott transition (holes)
     mott=(((0.26/radius_bohr_h)**3)*(188971616.463**3))
-    print ("Mott criterion (holes): " + str(mott) + " cm-3")
+    print ("Holes: " + str(mott) + " cm-3")
     
 # Mott transition (electrons)
     mott=(((0.26/radius_bohr_e)**3)*(188971616.463**3))
-    print ("Mott criterion (electrons): " + str(mott) + " cm-3")
+    print ("Electrons: " + str(mott) + " cm-3")
+    
+# Note that the value of 0.26 for the Mott Criteron is taken from:
+# "Universality aspects of the metal-nonmetal transition in condensed media"
+# Edwards and Seinko, PRB 17, 2575 (1978) 
