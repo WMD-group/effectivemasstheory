@@ -111,11 +111,11 @@ else:
     e_pol=e*(1+e_alpha/6)
     radius_bep=(2/(e_pol*diel))*0.529177249
     print ("*Hole Polarons \nFrohlich coupling constant: " + str(h_alpha))
-    print ("Effective polaron mass: " + str(h_pol))
-    print ("Polaron radius: " + str(radius_bhp) + "\n")
+    print ("Effective polaron mass: " + str(h_pol) + " me")
+    print ("Polaron radius: " + str(radius_bhp) + " A \n")
     print ("*Electron Polarons \nFrohlich coupling constant: " + str(e_alpha))
-    print ("Effective polaron mass: " + str(e_pol))
-    print ("Polaron radius: " + str(radius_bep) + "\n")
+    print ("Effective polaron mass: " + str(e_pol) + " me")
+    print ("Polaron radius: " + str(radius_bep) + " A \n")
 
 # Mott transition (both carriers)
     mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
