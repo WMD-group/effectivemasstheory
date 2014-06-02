@@ -26,6 +26,10 @@ parser.add_option("-s", "--static-dielectric",
 parser.add_option("-o", "--optical-dielectric",
                   action="store", type="float", dest="d1", default=4.5,
                   help="Optical (high-frequency) dielectric constant")           
+parser.add_option("-p", "--optical-phonon",
+                  action="store", type="float", dest="lo", default=1.0, 
+                  help="Optical (polaron active) phonon in THz")
+                  
 ### Further options go here ###
 (options,args) = parser.parse_args()
 
@@ -62,6 +66,13 @@ if options.d1 ==0:
     d1 = float(d1)
 else:
     d1 = options.d1
+
+# Get optical phonon frequency
+if options.lo ==0:
+    lo = raw_input("What is the optical phonon frequency (e.g. 1 THz)?")
+    lo = float(lo)
+else:
+    lo = options.lo
 
 #
 # Calculate properties
@@ -100,8 +111,8 @@ else:
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
     c=1/sc.alpha
-    # LO frequency (TODO: add to input. Current 1THz -> Ry)
-    freq=0.000303966
+    # LO frequency (from THz -> Ry)
+    freq=lo*0.0003039659692
     # Small polaron coupling constant 
     h_alpha=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
     e_alpha=(1/c)*m.sqrt((e*c*c)/(2*freq))*diel
