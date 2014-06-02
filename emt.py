@@ -110,12 +110,12 @@ else:
 
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
-    c=1/sc.alpha
+    #c=1/sc.alpha
     # LO frequency (from THz -> Ry)
     freq=lo*0.0003039659692
     # Small polaron coupling constant 
-    h_alpha=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
-    e_alpha=(1/c)*m.sqrt((e*c*c)/(2*freq))*diel
+    h_alpha=diel*m.sqrt(h/(2*freq))
+    e_alpha=diel*m.sqrt(e/(2*freq))
     # Small polaron mass (Feynman)
     #h_pol=h*(1+h_alpha/6)
     h_pol=h*((1-0.0008*h_alpha*h_alpha)/(1-h_alpha/6+0.0034*h_alpha*h_alpha))
