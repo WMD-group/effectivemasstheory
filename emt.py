@@ -117,6 +117,16 @@ else:
     print ("Effective polaron mass: " + str(e_pol) + " me")
     print ("Polaron radius: " + str(radius_bep) + " A \n")
 
+   #TESTING COUPLING CONSTANTS
+   #Review Paper 
+      #h_alpha1=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
+   #Frohlich/Stoneham
+      #u=m.sqrt(2*h*freq)
+      #h_alpha2=(diel*u)/(2*freq)
+   #Mott
+      #h_alpha3=diel*m.sqrt(h/(2*freq))
+   #print ("*TESTING \nCoupling constants:\n Eqn 1 " + str(h_alpha1) + "\n Eqn 2 " + str(h_alpha2) + "\n Eqn 3 " + str(h_alpha3) + "\n")
+
 # Mott transition (both carriers)
     mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
     print ("*Mott criterion (carrier concentrations) \nReduced mass: " + str(mott) + " cm-3")
