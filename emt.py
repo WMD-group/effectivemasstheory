@@ -27,7 +27,7 @@ parser.add_option("-o", "--optical-dielectric",
                   action="store", type="float", dest="d1", default=4.5,
                   help="Optical (high-frequency) dielectric constant")           
 parser.add_option("-p", "--optical-phonon",
-                  action="store", type="float", dest="lo", default=1.0, 
+                  action="store", type="float", dest="lo", default=9.3, 
                   help="Optical (polaron active) phonon in THz")
                   
 ### Further options go here ###
