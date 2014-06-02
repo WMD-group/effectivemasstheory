@@ -106,9 +106,11 @@ else:
     h_alpha=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
     e_alpha=(1/c)*m.sqrt((e*c*c)/(2*freq))*diel
     # Small polaron mass (Feynman)
-    h_pol=h*(1+h_alpha/6)
+    #h_pol=h*(1+h_alpha/6)
+    h_pol=h*((1-0.0008*h_alpha*h_alpha)/(1-h_alpha/6+0.0034*h_alpha*h_alpha))
     radius_bhp=(2/(h_pol*diel))*0.529177249
-    e_pol=e*(1+e_alpha/6)
+    #e_pol=e*(1+e_alpha/6)
+    e_pol=e*((1-0.0008*e_alpha*e_alpha)/(1-e_alpha/6+0.0034*e_alpha*e_alpha))
     radius_bep=(2/(e_pol*diel))*0.529177249
     print ("*Hole Polarons \nFrohlich coupling constant: " + str(h_alpha))
     print ("Effective polaron mass: " + str(h_pol) + " me")
