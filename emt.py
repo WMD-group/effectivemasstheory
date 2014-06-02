@@ -90,7 +90,7 @@ else:
     print ("Exciton binding energy: " + str(binding) + " meV")    
      
 # Carrier polaron radius
-    #TODO: Check formula has 8*pi --> 2* Prefactor Used
+    # From Mott (1968)
     radius_bh=(2/(h*diel))*0.529177249
     print ("Hole (band) polaron radius: " + str(radius_bh) + " A")
     
