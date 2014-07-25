@@ -110,35 +110,25 @@ else:
 
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
-    #c=1/sc.alpha
+    #   c=1/sc.alpha
     # LO frequency (from THz -> Ry)
-    freq=lo*0.0003039659692
+#    freq=lo*0.0003039659692
     # Small polaron coupling constant 
-    h_alpha=diel*m.sqrt(h/(2*freq))
-    e_alpha=diel*m.sqrt(e/(2*freq))
+#    h_alpha=diel*m.sqrt(h/(2*freq))
+#    e_alpha=diel*m.sqrt(e/(2*freq))
     # Small polaron mass (Feynman)
-    #h_pol=h*(1+h_alpha/6)
-    h_pol=h*((1-0.0008*h_alpha*h_alpha)/(1-h_alpha/6+0.0034*h_alpha*h_alpha))
-    radius_bhp=(2/(h_pol*diel))*0.529177249
-    #e_pol=e*(1+e_alpha/6)
-    e_pol=e*((1-0.0008*e_alpha*e_alpha)/(1-e_alpha/6+0.0034*e_alpha*e_alpha))
-    radius_bep=(2/(e_pol*diel))*0.529177249
-    print ("*Hole Polarons \nFrohlich coupling constant: " + str(h_alpha))
-    print ("Effective polaron mass: " + str(h_pol) + " me")
-    print ("Polaron radius: " + str(radius_bhp) + " A \n")
-    print ("*Electron Polarons \nFrohlich coupling constant: " + str(e_alpha))
-    print ("Effective polaron mass: " + str(e_pol) + " me")
-    print ("Polaron radius: " + str(radius_bep) + " A \n")
-
-   #TESTING COUPLING CONSTANTS
-   #Review Paper 
-      #h_alpha1=(1/c)*m.sqrt((h*c*c)/(2*freq))*diel
-   #Frohlich/Stoneham
-      #u=m.sqrt(2*h*freq)
-      #h_alpha2=(diel*u)/(2*freq)
-   #Mott
-      #h_alpha3=diel*m.sqrt(h/(2*freq))
-   #print ("*TESTING \nCoupling constants:\n Eqn 1 " + str(h_alpha1) + "\n Eqn 2 " + str(h_alpha2) + "\n Eqn 3 " + str(h_alpha3) + "\n")
+    #   h_pol=h*(1+h_alpha/6)
+#    h_pol=h*((1-0.0008*h_alpha*h_alpha)/(1-h_alpha/6+0.0034*h_alpha*h_alpha))
+#    radius_bhp=(2/(h_pol*diel))*0.529177249
+    #    e_pol=e*(1+e_alpha/6)
+#    e_pol=e*((1-0.0008*e_alpha*e_alpha)/(1-e_alpha/6+0.0034*e_alpha*e_alpha))
+#    radius_bep=(2/(e_pol*diel))*0.529177249
+#    print ("*Hole Polarons \nFrohlich coupling constant: " + str(h_alpha))
+#    print ("Effective polaron mass: " + str(h_pol) + " me")
+#    print ("Polaron radius: " + str(radius_bhp) + " A \n")
+#    print ("*Electron Polarons \nFrohlich coupling constant: " + str(e_alpha))
+#    print ("Effective polaron mass: " + str(e_pol) + " me")
+#    print ("Polaron radius: " + str(radius_bep) + " A \n")
 
 # Mott transition (both carriers)
     mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
