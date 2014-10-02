@@ -26,9 +26,9 @@ parser.add_option("-s", "--static-dielectric",
 parser.add_option("-o", "--optical-dielectric",
                   action="store", type="float", dest="d1", default=4.5,
                   help="Optical (high-frequency) dielectric constant")           
-parser.add_option("-p", "--optical-phonon",
-                  action="store", type="float", dest="lo", default=9.3, 
-                  help="Optical (polaron active) phonon in THz")
+#parser.add_option("-p", "--optical-phonon",
+#                  action="store", type="float", dest="lo", default=9.3, 
+#                  help="Optical (polaron active) phonon in THz")
                   
 ### Further options go here ###
 (options,args) = parser.parse_args()
@@ -68,11 +68,11 @@ else:
     d1 = options.d1
 
 # Get optical phonon frequency
-if options.lo ==0:
-    lo = raw_input("What is the optical phonon frequency (e.g. 1 THz)?")
-    lo = float(lo)
-else:
-    lo = options.lo
+#if options.lo ==0:
+#    lo = raw_input("What is the optical phonon frequency (e.g. 1 THz)?")
+#    lo = float(lo)
+#else:
+#    lo = options.lo
 
 #
 # Calculate properties
@@ -96,14 +96,14 @@ else:
     print ("Donor radius: " + str(radius_e) + " A \n")
     
 # (Static) Exciton binding energy
-    binding=((-1/(2*d0*radius_bohr))*(13.605698066*1000))
+    binding=((-1/(d0*radius_bohr))*(13.605698066*1000))
     print ("*Mott-Wannier Analysis \nThermal exciton radius: " + str(radius) + " A")
     print ("Thermal exciton binding energy: " + str(binding) + " meV")    
      
 # (Optical) Exciton binding energy
     radius_bohr_o=(d1/mass)
     radius_o=(d1/mass)*0.529177249
-    binding_o=((-1/(2*d1*radius_bohr_o))*(13.605698066*1000))
+    binding_o=((-1/(d1*radius_bohr_o))*(13.605698066*1000))
     print ("\nOptical exciton radius: " + str(radius_o) + " A")
     print ("Optical exciton binding energy: " + str(binding_o) + " meV")        
      
@@ -137,9 +137,12 @@ else:
 #    print ("Effective polaron mass: " + str(e_pol) + " me")
 #    print ("Polaron radius: " + str(radius_bep) + " A \n")
 
-# Mott transition (both carriers)
-    mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
-    print ("*Mott criterion (carrier concentrations) \nReduced mass: " + str(mott) + " cm-3")
+# Mott transition 
+
+# Exciton transition ~ 1/exciton volume (Optical properties of Solids - Mark Fox)
+#    mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
+    mott=((1/(4/3*sc.pi*(radius_bohr**3)))*(188971616.463**3))
+    print ("*Mott criterion (carrier concentrations) \nExciton: " + str(mott) + " cm-3")
 
 # Mott transition (holes)
     mott=(((0.26/radius_bohr_h)**3)*(188971616.463**3))
