@@ -37,7 +37,7 @@ parser.add_option("-p", "--optical-phonon",
 print "*A program to calculate simple semiconductor properties from effective mass theory* \n"
 # See, e.g. Fundamentals of Semiconductors, Yu and Cardona
 
-print "Aron Walsh (University of Bath) \nDate last edited: 31/05/2014 \n"
+print "Aron Walsh (University of Bath) \nDate last edited: 2/10/2014 \n"
 
 # Get electron effective mass
 if options.e ==0:
@@ -95,15 +95,22 @@ else:
     print ("*Shallow defects \nAcceptor radius: " + str(radius_h) + " A")
     print ("Donor radius: " + str(radius_e) + " A \n")
     
-# Exciton binding energy
+# (Static) Exciton binding energy
     binding=((-1/(2*d0*radius_bohr))*(13.605698066*1000))
-    print ("*Mott-Wannier carriers \nExciton radius: " + str(radius) + " A")
-    print ("Exciton binding energy: " + str(binding) + " meV")    
+    print ("*Mott-Wannier Analysis \nThermal exciton radius: " + str(radius) + " A")
+    print ("Thermal exciton binding energy: " + str(binding) + " meV")    
+     
+# (Optical) Exciton binding energy
+    radius_bohr_o=(d1/mass)
+    radius_o=(d1/mass)*0.529177249
+    binding_o=((-1/(2*d1*radius_bohr_o))*(13.605698066*1000))
+    print ("\nOptical exciton radius: " + str(radius_o) + " A")
+    print ("Optical exciton binding energy: " + str(binding_o) + " meV")        
      
 # Carrier polaron radius
     # From Mott (1968)
     radius_bh=(2/(h*diel))*0.529177249
-    print ("Hole (band) polaron radius: " + str(radius_bh) + " A")
+    print ("\nHole (band) polaron radius: " + str(radius_bh) + " A")
     
     radius_be=(2/(e*diel))*0.529177249
     print ("Electron (band) polaron radius: " + str(radius_be) + " A \n")
