@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-"""Calculate some simple semiconductor properties from effective mass theory"""
+"""Calculate simple semiconductor properties from effective mass theory"""
 
 ################################################################################
 # Aron Walsh 2014                                                              #
@@ -15,18 +15,19 @@ from optparse import OptionParser
 ######################## Set up optional arguments #############################
 parser = OptionParser()
 parser.add_option("-c", "--electron-effective-mass",
-                  action="store", type="float", dest="e", default=0.1,
+                  action="store", type="float", dest="e", default=0.11,
                   help="Average electron (conduction band) effective mass")
 parser.add_option("-v", "--hole-effective-mass",
-                  action="store", type="float", dest="h", default=0.1,
+                  action="store", type="float", dest="h", default=0.13,
                   help="Average hole (valence band) effective mass") 
 parser.add_option("-s", "--static-dielectric",
-                  action="store", type="float", dest="d0", default=170,
+                  action="store", type="float", dest="d0", default=57.65,
                   help="Static (low-frequency) dielectric constant")     
 parser.add_option("-o", "--optical-dielectric",
-                  action="store", type="float", dest="d1", default=17.2,
-                  help="Optical (high-frequency) dielectric constant")
-#########################defaults for PbS#########################################           
+                  action="store", type="float", dest="d1", default=6.32,
+                  help="Optical (high-frequency) dielectric constant")    
+#########################defaults for CH3NH3PbI3################################
+#        
 #parser.add_option("-p", "--optical-phonon",
 #                  action="store", type="float", dest="lo", default=9.3, 
 #                  help="Optical (polaron active) phonon in THz")
@@ -35,10 +36,10 @@ parser.add_option("-o", "--optical-dielectric",
 (options,args) = parser.parse_args()
 
 ########################### Begin main program #################################
-print "*A program to calculate simple semiconductor properties from effective mass theory* \n"
+print "*A program for semiconductor properties from effective mass theory* \n"
 # See, e.g. Fundamentals of Semiconductors, Yu and Cardona
 
-print "Aron Walsh (University of Bath) \nDate last edited: 2/10/2014 \n"
+print "Aron Walsh (University of Bath) \nDate last edited: 22/11/2014 \n"
 
 # Get electron effective mass
 if options.e ==0:
@@ -84,7 +85,7 @@ else:
     diel=(1/d1-1/d0)
     print ("*Effective mass \nHole mass: " + str(h) + " me")
     print ("Electron mass: " + str(e) + " me")
-    print ("Reduced mass: " + str(mass) + " me \n")
+    print ("Reduced mass: %3.2f me\n" % (mass))
 
 # Exciton Bohr radius
     radius_bohr=(d0/mass)
@@ -93,44 +94,46 @@ else:
     radius=(d0/mass)*0.529177249
     radius_h=(d0/h)*0.529177249
     radius_e=(d0/e)*0.529177249
-    print ("*Shallow defects \nAcceptor radius: " + str(radius_h) + " A")
-    print ("Donor radius: " + str(radius_e) + " A \n")
+    print ("*Shallow defects \nAcceptor radius: %3.2f A (%3.2f nm)" %(radius_h, radius_h/10))
+    print ("Donor radius: %3.2f A (%3.2f nm)\n" %(radius_e, radius_e/10))
     
 # (Static) Exciton binding energy
     binding=((1/(d0*radius_bohr))*(13.605698066*1000))
-    print ("*Mott-Wannier Analysis \nThermal exciton radius: " + str(radius) + " A")
-    print ("Thermal exciton binding energy: " + str(binding) + " meV")    
+    print ("*Mott-Wannier analysis \nThermal exciton radius: %3.2f A" %(radius))
+    print ("Thermal exciton binding energy: %3.2f meV" %(binding))    
      
 # (Optical) Exciton binding energy
     radius_bohr_o=(d1/mass)
     radius_o=(d1/mass)*0.529177249
     binding_o_ryd=1/(d1*radius_bohr_o)
     binding_o=binding_o_ryd*13.605698066*1000
-    print ("\nOptical exciton radius: " + str(radius_o) + " A")
-    print ("Optical exciton binding energy: " + str(binding_o) + " meV")        
+    print ("\nOptical exciton radius: %3.2f A" %(radius_o))
+    print ("Optical exciton binding energy: %3.2f meV" %(binding_o))        
      
 # Carrier polaron radius
     # From Mott (1968)
     radius_bh=(2/(h*diel))*0.529177249
-    print ("\nHole (band) polaron radius: " + str(radius_bh) + " A")
+    print ("\nHole (band) polaron radius: %3.2f A" %(radius_bh))
     
     radius_be=(2/(e*diel))*0.529177249
-    print ("Electron (band) polaron radius: " + str(radius_be) + " A \n")
+    print ("Electron (band) polaron radius:  %3.2f A\n" %(radius_be))
 
 # Quantum dot properties
-    print ("*Quantum Dot")
+    print ("*Quantum dots")
     
     confine=radius_o*(sc.pi*sc.pi)/3.6
-    print ("Confinement radius " + str(confine/10) + " nm")
+    print ("Confinement radius: %3.0f nm" %(confine/10))
     
     radius_qd=2 #nm
     radius_qd_bohr=radius_qd*18.8971616463
-    #radius_ratio=radius_bohr_o/radius_qd_bohr
     #change in band gap (spherical confinement + coulomb attraction + rydberg correction)
     delta_e_ryd=(sc.pi*sc.pi)/(2*mass*radius_qd_bohr*radius_qd_bohr)-(1.786/(d1*radius_qd_bohr))-(0.248*binding_o_ryd)
     delta_e=delta_e_ryd*13.605698066*1000
-    print ("r=2nm band gap correction " + str(delta_e) + " meV\n")
-    
+    print ("r=2nm optical gap enhancement: %3.0f meV \n" %(delta_e))
+
+#
+# AW: Should fix this at some stage
+#    
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
     #   c=1/sc.alpha
@@ -154,19 +157,17 @@ else:
 #    print ("Polaron radius: " + str(radius_bep) + " A \n")
 
 # Mott transition 
-
 # Exciton transition ~ 1/exciton volume (Optical properties of Solids - Mark Fox)
-#    mott=(((0.26/radius_bohr)**3)*(188971616.463**3))
     mott=((1/(4/3*sc.pi*(radius_bohr**3)))*(188971616.463**3))
-    print ("*Mott criterion (carrier concentrations) \nExciton: " + str(mott) + " cm-3")
+    print ("*Mott criterion (critical concentrations) \nExciton: %3.0e cm-3" %(mott))
 
 # Mott transition (holes)
     mott=(((0.26/radius_bohr_h)**3)*(188971616.463**3))
-    print ("Holes: " + str(mott) + " cm-3")
+    print ("Holes: %3.0e cm-3" %(mott))
     
 # Mott transition (electrons)
     mott=(((0.26/radius_bohr_e)**3)*(188971616.463**3))
-    print ("Electrons: " + str(mott) + " cm-3")
+    print ("Electrons: %3.0e cm-3" %(mott))
     
 # Note that the value of 0.26 for the Mott Criteron is taken from:
 # "Universality aspects of the metal-nonmetal transition in condensed media"
