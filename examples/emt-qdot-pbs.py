@@ -15,17 +15,18 @@ from optparse import OptionParser
 ######################## Set up optional arguments #############################
 parser = OptionParser()
 parser.add_option("-c", "--electron-effective-mass",
-                  action="store", type="float", dest="e", default=0.08,
+                  action="store", type="float", dest="e", default=0.1,
                   help="Average electron (conduction band) effective mass")
 parser.add_option("-v", "--hole-effective-mass",
-                  action="store", type="float", dest="h", default=0.08,
+                  action="store", type="float", dest="h", default=0.1,
                   help="Average hole (valence band) effective mass") 
 parser.add_option("-s", "--static-dielectric",
-                  action="store", type="float", dest="d0", default=169,
+                  action="store", type="float", dest="d0", default=170,
                   help="Static (low-frequency) dielectric constant")     
 parser.add_option("-o", "--optical-dielectric",
                   action="store", type="float", dest="d1", default=17.2,
-                  help="Optical (high-frequency) dielectric constant")           
+                  help="Optical (high-frequency) dielectric constant")
+#########################defaults for PbS#########################################           
 #parser.add_option("-p", "--optical-phonon",
 #                  action="store", type="float", dest="lo", default=9.3, 
 #                  help="Optical (polaron active) phonon in THz")
@@ -96,14 +97,15 @@ else:
     print ("Donor radius: " + str(radius_e) + " A \n")
     
 # (Static) Exciton binding energy
-    binding=((-1/(d0*radius_bohr))*(13.605698066*1000))
+    binding=((1/(d0*radius_bohr))*(13.605698066*1000))
     print ("*Mott-Wannier Analysis \nThermal exciton radius: " + str(radius) + " A")
     print ("Thermal exciton binding energy: " + str(binding) + " meV")    
      
 # (Optical) Exciton binding energy
     radius_bohr_o=(d1/mass)
     radius_o=(d1/mass)*0.529177249
-    binding_o=((-1/(d1*radius_bohr_o))*(13.605698066*1000))
+    binding_o_ryd=1/(d1*radius_bohr_o)
+    binding_o=binding_o_ryd*13.605698066*1000
     print ("\nOptical exciton radius: " + str(radius_o) + " A")
     print ("Optical exciton binding energy: " + str(binding_o) + " meV")        
      
@@ -115,6 +117,20 @@ else:
     radius_be=(2/(e*diel))*0.529177249
     print ("Electron (band) polaron radius: " + str(radius_be) + " A \n")
 
+# Quantum dot properties
+    print ("*Quantum Dot")
+    
+    confine=radius_o*(sc.pi*sc.pi)/3.6
+    print ("Confinement radius " + str(confine/10) + " nm")
+    
+    radius_qd=2 #nm
+    radius_qd_bohr=radius_qd*18.8971616463
+    #radius_ratio=radius_bohr_o/radius_qd_bohr
+    #change in band gap (spherical confinement + coulomb attraction + rydberg correction)
+    delta_e_ryd=(sc.pi*sc.pi)/(2*mass*radius_qd_bohr*radius_qd_bohr)-(1.786/(d1*radius_qd_bohr))-(0.248*binding_o_ryd)
+    delta_e=delta_e_ryd*13.605698066*1000
+    print ("r=2nm band gap correction " + str(delta_e) + " meV\n")
+    
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
     #   c=1/sc.alpha

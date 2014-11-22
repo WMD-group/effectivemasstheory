@@ -15,18 +15,18 @@ from optparse import OptionParser
 ######################## Set up optional arguments #############################
 parser = OptionParser()
 parser.add_option("-c", "--electron-effective-mass",
-                  action="store", type="float", dest="e", default=0.1,
+                  action="store", type="float", dest="e", default=0.15,
                   help="Average electron (conduction band) effective mass")
 parser.add_option("-v", "--hole-effective-mass",
-                  action="store", type="float", dest="h", default=0.1,
+                  action="store", type="float", dest="h", default=0.14,
                   help="Average hole (valence band) effective mass") 
 parser.add_option("-s", "--static-dielectric",
-                  action="store", type="float", dest="d0", default=170,
+                  action="store", type="float", dest="d0", default=72.01,
                   help="Static (low-frequency) dielectric constant")     
 parser.add_option("-o", "--optical-dielectric",
-                  action="store", type="float", dest="d1", default=17.2,
-                  help="Optical (high-frequency) dielectric constant")
-#########################defaults for PbS#########################################           
+                  action="store", type="float", dest="d1", default=4.96,
+                  help="Optical (high-frequency) dielectric constant")    
+#########################defaults for CsPbBr3 (PBE0-37.5)#########################        
 #parser.add_option("-p", "--optical-phonon",
 #                  action="store", type="float", dest="lo", default=9.3, 
 #                  help="Optical (polaron active) phonon in THz")
@@ -123,13 +123,21 @@ else:
     confine=radius_o*(sc.pi*sc.pi)/3.6
     print ("Confinement radius " + str(confine/10) + " nm")
     
-    radius_qd=2 #nm
+    radius_qd=2.5 #nm
     radius_qd_bohr=radius_qd*18.8971616463
     #radius_ratio=radius_bohr_o/radius_qd_bohr
     #change in band gap (spherical confinement + coulomb attraction + rydberg correction)
-    delta_e_ryd=(sc.pi*sc.pi)/(2*mass*radius_qd_bohr*radius_qd_bohr)-(1.786/(d1*radius_qd_bohr))-(0.248*binding_o_ryd)
+    delta_e_ryd=(sc.pi*sc.pi)/(2*mass*radius_qd_bohr*radius_qd_bohr)#-(1.786/(d1*radius_qd_bohr))#-(0.248*binding_o_ryd)
     delta_e=delta_e_ryd*13.605698066*1000
-    print ("r=2nm band gap correction " + str(delta_e) + " meV\n")
+    print ("r=2.5nm band gap correction " + str(delta_e) + " meV")
+    
+    radius_qd=6 #nm
+    radius_qd_bohr=radius_qd*18.8971616463
+    #radius_ratio=radius_bohr_o/radius_qd_bohr
+    #change in band gap (spherical confinement + coulomb attraction + rydberg correction)
+    delta_e_ryd=(sc.pi*sc.pi)/(2*mass*radius_qd_bohr*radius_qd_bohr)#-(1.786/(d1*radius_qd_bohr))#-(0.248*binding_o_ryd)
+    delta_e=delta_e_ryd*13.605698066*1000
+    print ("r=6nm band gap correction " + str(delta_e) + " meV\n")
     
 # Frohlich (lage polaron) properties
     # Speed of light in atomic units
